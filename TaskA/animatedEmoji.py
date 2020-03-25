@@ -2,9 +2,9 @@
 from MyClasses.Color import Color
 from MyClasses.Emoji import Emoji
 from time import sleep
+from MyModules import modules
 
 color=Color()
-
 noColor=color.getNoColorColor()
 red=color.getRedColor()
 green=color.getGreenColor()
