@@ -1,24 +1,23 @@
 from sense_hat import SenseHat
+from MyClasses.Shake import Shake
 from time import sleep
 import random
 
 sense=SenseHat()
-sense.clear()
-acc=sense.get_orientation()
-initRoll=abs(round((acc['roll'])))
-initpitch=abs(round(acc['pitch']))
-inityaw=abs(round(acc['yaw']))
+sense.clear(0,0,0)
+initialOrientation=Shake()
+initOrienTuple=initialOrientation.getCurrentOrientationTuple()
+dieValue=random.randint(1,6)
 
 while True:
-    acc=sense.get_orientation()
-    newRoll=abs(round((acc['roll'])))
-    newpitch=abs(round(acc['pitch']))
-    newyaw=abs(round(acc['yaw']))
-
-    if initRoll!=newRoll and initpitch!=newpitch and inityaw!=newyaw:
-        sense.show_message("!")
-    else:
+    newOrientation=Shake()
+    newOrienTuple=newOrientation.getCurrentOrientationTuple()
+    
+    #if die is shaking
+    if initOrienTuple!=newOrienTuple:
+        sense.clear(255,255,0)
+        dieValue=random.randint(1,6)
+    else:  #when die is shaken
         sense.clear(0,0,0)
-    initRoll=newRoll
-    initpitch=newpitch
-    inityaw=newyaw
+        sense.show_letter("{}".format(dieValue))
+    initOrienTuple=newOrienTuple
