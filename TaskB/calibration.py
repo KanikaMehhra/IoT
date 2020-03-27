@@ -5,7 +5,7 @@ import os
 class Calibration:
     def __init__(self):
         self.sense = SenseHat()
-        self.t = None
+        self.__t = None
         
 # Get CPU temperature.
     def get_cpu_temp(self):
@@ -15,13 +15,13 @@ class Calibration:
 # Use moving average to smooth readings.
     def get_smooth(self, x):
         if not hasattr(self.get_smooth, "t"):
-            self.t = [x,x,x]
+            self.__t = [x,x,x]
     
-        self.t[2] = self.t[1]
-        self.t[1] = self.t[0]
-        self.t[0] = x
+        self.__t[2] = self.__t[1]
+        self.__t[1] = self.__t[0]
+        self.__t[0] = x
 
-        return (self.t[0] + self.t[1] + self.t[2]) / 3
+        return (self.__t[0] + self.__t[1] + self.__t[2]) / 3
 
     def get_calibrated_temp(self):
         t_corr = 0.0
