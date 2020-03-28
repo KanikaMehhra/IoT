@@ -11,24 +11,30 @@ parent = os.path.dirname(current)
 sys.path.insert(0, parent) 
 import constants
 
-sense = SenseHat()
-calib = Calibration()
+class MonitorAndDisplay: 
+    def __init__(self):
+        self.__sense = SenseHat()
+        self.__calib = Calibration()
 
-data = DataInput('TaskB/config.json').getData()
-cold_max = data['cold_max'] 
-comfortable_min = data['comfortable_min'] 
-comfortable_max = data['comfortable_max'] 
-hot_min = data['hot_min'] 
+        self.initData('TaskB/config.json')
 
-while True:
-    temp = calib.get_calibrated_temp()
+    def initData(self, file):
+        self.__data = DataInput(file).getData()
+        self.__cold_max = self.__data['cold_max'] 
+        self.__comfortable_min = self.__data['comfortable_min'] 
+        self.__comfortable_max = self.__data['comfortable_max'] 
+        self.__hot_min = self.__data['hot_min'] 
 
-    if temp <= cold_max:
-        sense.show_message(str("%.1fC" % temp), text_colour=constants.RED)
-    elif temp > comfortable_min and temp < comfortable_max:
-        sense.show_message(str("%.1fC" % temp), text_colour =constants.GREEN)
-    elif temp >= hot_min:
-        sense.show_message(str("%.1fC" % temp), text_colour = constants.RED) 
+    def runTemp(self):
+        while True:
+            temp = self.__calib.get_calibrated_temp()
+
+            if temp <= self.__cold_max:
+                self.__sense.show_message(str("%.1fC" % temp), text_colour=constants.RED)
+            elif temp > self.__comfortable_min and temp < self.__comfortable_max:
+                self.__sense.show_message(str("%.1fC" % temp), text_colour =constants.GREEN)
+            elif temp >= self.__hot_min:
+                self.__sense.show_message(str("%.1fC" % temp), text_colour = constants.RED) 
     
-    sleep(10)
-    sense.clear()
+            sleep(10)
+            self.__sense.clear()
