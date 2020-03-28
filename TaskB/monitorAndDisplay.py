@@ -1,4 +1,5 @@
 from time import sleep
+import sys
 
 from sense_hat import SenseHat
 
@@ -16,16 +17,22 @@ class MonitorAndDisplay:
         self.__sense = SenseHat()
         self.__calib = Calibration()
 
-        self.initData('TaskB/config.json')
-
     def initData(self, file):
-        self.__data = DataInput(file).getData()
+        try:
+            self.__data = DataInput(file).getData()
+        except FileNotFoundError:
+            self.__sense.show_message("Sorry, missing a config file", text_colour=constants.RED)
+            print("Configuration file not found, closing program...")
+            sys.exit()
+
         self.__cold_max = self.__data['cold_max'] 
         self.__comfortable_min = self.__data['comfortable_min'] 
         self.__comfortable_max = self.__data['comfortable_max'] 
         self.__hot_min = self.__data['hot_min'] 
 
     def runTemp(self):
+        self.initData('config.json')
+
         while True:
             temp = self.__calib.get_calibrated_temp()
 
