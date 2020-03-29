@@ -1,6 +1,4 @@
 from time import sleep
-import sys
-
 from sense_hat import SenseHat
 
 from calibration import Calibration
@@ -23,6 +21,7 @@ class MonitorAndDisplay:
         except FileNotFoundError:
             self.__sense.show_message("Sorry, missing a config file", text_colour=constants.RED)
             print("Configuration file not found, closing program...")
+            self.__sense.clear()
             sys.exit()
 
         self.__cold_max = self.__data['cold_max'] 
