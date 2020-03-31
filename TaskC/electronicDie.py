@@ -1,17 +1,15 @@
 from random import randint
 from sense_hat import SenseHat
-import modules
 from time import sleep
 
 sense=SenseHat()
 MAX_SHAKING_INTERVAL=3
 
-class electronicDie:    
+class ElectronicDie:    
     def __init__(self):
         super().__init__()
         self.__faceValue=0
         self.__dt = 0.1
-
 
     def getFaceValue(self):
         return self.__faceValue
@@ -20,7 +18,6 @@ class electronicDie:
         self.__faceValue=faceValue
 
     def listenForShake(self):
-        temp=True
         while True:
             acceleration = sense.get_accelerometer_raw()
             x = acceleration['x']
@@ -37,5 +34,4 @@ class electronicDie:
                 self.setFaceValue(randint(1,6))
                 sense.show_letter("{}".format(self.__faceValue))
                 sleep(2)
-                #temp=False
                 break

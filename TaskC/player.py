@@ -1,7 +1,7 @@
 from sense_hat import SenseHat
 sense=SenseHat()
 
-class player:
+class Player:
     def __init__(self,name):
         self.__name=name
         self.__currPoints = 0

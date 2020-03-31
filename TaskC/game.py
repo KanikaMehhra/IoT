@@ -1,18 +1,17 @@
-from gameEngine import gameEngine
-from player import player
-import modules
-from electronicDie import electronicDie
+from gameEngine import GameEngine
+from player import Player
+from electronicDie import ElectronicDie
 from random import randint
 
 #instantiating a die for the game
-die=electronicDie()
+die=ElectronicDie()
 
 ##instantiating the game engine with the die.
-gameEng=gameEngine(die)
+gameEng=GameEngine(die)
 
 #creating players
-player1=player("Kanika")
-player2=player("Suhani")
+player1=Player("Kanika")
+player2=Player("Suhani")
 
 #adding players to the engine
 gameEng.addPlayer(player1)

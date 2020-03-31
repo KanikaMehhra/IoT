@@ -1,19 +1,17 @@
-import modules 
 from random import randint
 from sense_hat import SenseHat
-from electronicDie import electronicDie
 from time import sleep
 from datetime import datetime
 import csv
-from recordData import recordData
+from recordData import RecordData
 
 sense=SenseHat()
-MAX_POINTS=5
+MAX_POINTS=30
 bColour=(255,111,111)
 tColour=(111,255,111)
-recData=recordData()
+recData=RecordData()
 
-class gameEngine:
+class GameEngine:
     def __init__(self,die):
         super().__init__()
         self.__playersList=[]
@@ -33,10 +31,10 @@ class gameEngine:
 
     def introToTheGame(self):
         welcome = "Welcome to the electronic die game. Press the joystick to go through the game's instructions."
-        sense.show_message(welcome, scroll_speed=0)
+        sense.show_message(welcome)
         event = sense.stick.wait_for_event()
         intro="Player 1 and Player 2 take turns in rolling a die. The first one to roll {0} points is the winner. Let's start the game.".format(MAX_POINTS)
-        sense.show_message(intro, scroll_speed=0)
+        sense.show_message(intro)
         sense.clear(bColour)
         sleep(1)
 
