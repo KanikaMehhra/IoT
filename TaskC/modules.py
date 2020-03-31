@@ -1,4 +1,5 @@
 from sense_hat import SenseHat
+
 sense=SenseHat()
 
 def getRotation():
@@ -14,4 +15,3 @@ def getRotation():
         return 180
     else:
         return 0
-

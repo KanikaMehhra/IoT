@@ -20,3 +20,6 @@ gameEng.addPlayer(player2)
 
 #starting the game
 gameEng.startGame()
+
+#finishing the game
+gameEng.gameFinished()
