@@ -16,10 +16,11 @@ def getRotation():
         return 0
 
         
-def getCurrentAccelerationTuple():
-    acc=sense.get_accelerometer_raw()
-    x=round(acc["x"])
-    y=round(acc["y"])
-    z=round(acc["z"])
+def getCurrentOrientationTuple():
+    orientation=sense.get_accelerometer_raw()
+    x=round(orientation["x"])
+    y=round(orientation["y"])
+    z=round(orientation["z"])
+    
 
     return (x, y, z)
