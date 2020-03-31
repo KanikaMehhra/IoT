@@ -16,11 +16,13 @@ class ElectronicDie:
             sense.clear(255,255,0)
             self.__faceValue=randint(1,6)
             self.__initOrienTuple=newOrienTuple
+            newOrienTuple=modules.getCurrentAccelerationTuple()
             sense.show_letter("{}".format(self.__faceValue))
-
+"""
 initOrientationTuple=modules.getCurrentAccelerationTuple()
 die=ElectronicDie(randint(1,6), initOrientationTuple)
 
 die.listenForShake()
 
 
+"""
