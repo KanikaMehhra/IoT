@@ -1,22 +1,26 @@
+from random import randint
 from sense_hat import SenseHat
-from time import sleep
-import random
-from MyModules import modules
+import modules
 
 sense=SenseHat()
-sense.clear(0,0,0)
-initOrienTuple=modules.getCurrentOrientationTuple()
-dieValue=random.randint(1,6)
 
-while True:
-    newOrienTuple=modules.getCurrentOrientationTuple()
-    
-    #if die is shaking
-    if initOrienTuple!=newOrienTuple:
-        sense.clear(255,255,0)
-        dieValue=random.randint(1,6)
-    else:  #when die is shaken
-        #sense.set_rotation(modules.getRotation())
-        sense.clear(0,0,0)
-        sense.show_letter("{}".format(dieValue))
-    initOrienTuple=newOrienTuple
+class ElectronicDie:    
+    def __init__(self,faceValue,initOrienTuple):
+        super().__init__()
+        self.__faceValue=faceValue
+        self.__initOrienTuple=initOrienTuple
+
+    def listenForShake(self):
+        newOrienTuple=modules.getCurrentAccelerationTuple()
+        while self.__initOrienTuple!=newOrienTuple:
+            sense.clear(255,255,0)
+            self.__faceValue=randint(1,6)
+            self.__initOrienTuple=newOrienTuple
+            sense.show_letter("{}".format(self.__faceValue))
+
+initOrientationTuple=modules.getCurrentAccelerationTuple()
+die=ElectronicDie(randint(1,6), initOrientationTuple)
+
+die.listenForShake()
+
+
