@@ -1,30 +1,16 @@
-import random
-import modules 
-from random import randint
-from sense_hat import SenseHat
-sense=SenseHat()
+from gameEngine import gameEngine
+from player import player
+from electronicDie import electronicDie
 
-MAX_POINTS=30
-class game:
-    def __init__(self):
-        super().__init__()
-        self.__playersList=[]
+##instantiating the game engine.
+gameEng=gameEngine()
 
-    def addPlayer(self, player):
-        self.__playersList.append(player)
+#creating players
+player1=player("Kanika")
+player2=player("Suhani")
+players=[player1,player2]
 
-    def startGame(self):
-        intro = "Welcome to the electronic die game. Press the joystick to go through the game's instructions."
-        sense.show_message(intro, scroll_speed=0)
-        bColour=(255,111,111)
-        sense.show_message("Press joystick", back_colour=bColour)
-        
-        messages=["Player 1 and Player 2 take turns in rolling a die.",
-        " The first one to roll {0} points is the winner".format(MAX_POINTS),
-        "press joystick while switching between the players",
-        "Let's start the game"]
+#adding players to the engine
+for player in players:
+    gameEng.addPlayer(player)
 
-        for line in range (0,len(messages)):
-            event = sense.stick.wait_for_event()
-            sense.show_message(messages[line])
-            sense.show_message("Press joystick", back_colour=bColour)

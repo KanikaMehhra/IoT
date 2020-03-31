@@ -4,7 +4,7 @@ import modules
 
 sense=SenseHat()
 
-class ElectronicDie:    
+class electronicDie:    
     def __init__(self,faceValue,initOrienTuple):
         super().__init__()
         self.__faceValue=faceValue
