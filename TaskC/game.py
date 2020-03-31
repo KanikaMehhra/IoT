@@ -4,14 +4,10 @@ import modules
 from electronicDie import electronicDie
 from random import randint
 
-#set initial orientation of the pi game device.
-#initOrientTuple=modules.getCurrentOrientationTuple()
-
 #instantiating a die for the game
-#die=electronicDie(randint(1,6),initOrientTuple)
 die=electronicDie()
 
-##instantiating the game engine.
+##instantiating the game engine with the die.
 gameEng=gameEngine(die)
 
 #creating players
@@ -22,4 +18,5 @@ player2=player("Suhani")
 gameEng.addPlayer(player1)
 gameEng.addPlayer(player2)
 
+#starting the game
 gameEng.startGame()

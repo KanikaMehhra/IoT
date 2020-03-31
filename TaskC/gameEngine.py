@@ -40,7 +40,6 @@ class gameEngine:
     def startGame(self):
         self.introToTheGame()
         sense.show_message("{}'s turn".format(self.__playersList[0].getPlayerInfo().get("name")))
-        #self.setInitialActivePlayerStatus()
         print("SAT INITIAL")
         while self.__playersList[0].getPlayerInfo().get("points")<MAX_POINTS and self.__playersList[1].getPlayerInfo().get("points")<MAX_POINTS:
             self.__die.listenForShake() 
@@ -59,12 +58,10 @@ class gameEngine:
 
     def setActivePlayerPointAndSwitchActivePlayer(self,points):
         if self.firstPlayerIsActive:
-            print("11111")
             self.__playersList[0].addPoints(points)
             sense.show_message("Points:{}".format(self.__playersList[0].getPlayerInfo().get("points")))
             sense.show_message("{}'s turn".format(self.__playersList[1].getPlayerInfo().get("name")))
         else:
-            print("2222")
             self.__playersList[1].addPoints(points)
             sense.show_message("Points:{}".format(self.__playersList[1].getPlayerInfo().get("points")))
             sense.show_message("{}'s turn".format(self.__playersList[0].getPlayerInfo().get("name")))
