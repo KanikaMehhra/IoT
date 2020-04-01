@@ -8,13 +8,12 @@ parent = os.path.dirname(current)
 sys.path.insert(0, parent) 
 import constants
 
-sense=SenseHat()
-
 class ElectronicDie:    
     def __init__(self):
         super().__init__()
         self.__faceValue=0
         self.__dt = 0.1
+        self.__sense=SenseHat()
 
     def getFaceValue(self):
         return self.__faceValue
@@ -23,7 +22,7 @@ class ElectronicDie:
         self.__faceValue=faceValue
 
     def listenForShake(self):
-        acceleration = sense.get_accelerometer_raw()
+        acceleration = self.__sense.get_accelerometer_raw()
         x = acceleration['x']
         y = acceleration['y']
         z = acceleration['z']
@@ -41,13 +40,16 @@ class ElectronicDie:
             #for purposes of fake animation
             t = 0.0
         
+        #shows short animation to get the feeling of rolling a die 
             while (t < 1.0):
                 num = randint(constants.MIN_DIE, constants.MAX_DIE)
                 t += self.__dt
-                sense.show_letter(str(num))
+                if t > 1.0:
+                    self.__sense.show_letter(str(num), constants.RED)
+                else:
+                    self.__sense.show_letter(str(num))
                 sleep(t)
         
-            sense.show_letter(str(num), (255, 0, 0))
             self.setFaceValue(num)
             
         return num
