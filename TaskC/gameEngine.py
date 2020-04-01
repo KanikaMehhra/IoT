@@ -73,10 +73,10 @@ class GameEngine:
                 sense.show_message("Points:{}".format(activePlayerPoints))
                 if activePlayerPoints < constants.MAX_POINTS:
                     if i == len(self.__playersList) - 1:
-                        i = 0
+                        nextI = 0
                     else:
-                        i += 1
-                    sense.show_message("{}'s turn".format(self.__playersList[i].getPlayerInfo().get("name")),text_colour=constants.T_COLOUR)
+                        nextI = i + 1
+                    sense.show_message("{}'s turn".format(self.__playersList[nextI].getPlayerInfo().get("name")),text_colour=constants.T_COLOUR)
                 else:
                     self.__gameFinished = True
                     self.setWinner(player)
