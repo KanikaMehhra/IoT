@@ -2,8 +2,13 @@ from random import randint
 from sense_hat import SenseHat
 from time import sleep
 
+import os,sys,inspect
+current = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parent = os.path.dirname(current)
+sys.path.insert(0, parent) 
+import constants
+
 sense=SenseHat()
-MAX_SHAKING_INTERVAL=3
 
 class ElectronicDie:    
     def __init__(self):
@@ -18,20 +23,32 @@ class ElectronicDie:
         self.__faceValue=faceValue
 
     def listenForShake(self):
-        while True:
-            acceleration = sense.get_accelerometer_raw()
-            x = acceleration['x']
-            y = acceleration['y']
-            z = acceleration['z']
+        acceleration = sense.get_accelerometer_raw()
+        x = acceleration['x']
+        y = acceleration['y']
+        z = acceleration['z']
 
-            x = abs(x)
-            y = abs(y)
-            z = abs(z)
+        x = round(x, 0)
+        y = round(y, 0)
+        z = round(z, 0)
 
-            if x > 1 or y > 1 or z > 1:
-                sense.clear(255,255,0)
-                sleep(1)
-                self.setFaceValue(randint(1,6))
-                sense.show_letter("{}".format(self.__faceValue))
-                sleep(2)
-                break
+        x = abs(x)
+        y = abs(y)
+        z = abs(z)
+        
+        num = 0
+        if x > 1 or y > 1 or z > 1:
+            #for purposes of fake animation
+            t = 0.0
+        
+            while (t < 1.0):
+                num = randint(constants.MIN_DIE, constants.MAX_DIE)
+                t += self.__dt
+                sense.show_letter(str(num))
+                sleep(t)
+        
+            sense.show_letter(str(num), (255, 0, 0))
+            self.setFaceValue(num)
+            
+        return num
+            

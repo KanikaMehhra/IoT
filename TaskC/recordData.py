@@ -14,3 +14,4 @@ class RecordData:
             print("File doesnt exist")
         finally:
             f.close()
+

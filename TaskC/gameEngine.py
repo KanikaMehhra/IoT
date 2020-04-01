@@ -17,6 +17,7 @@ class GameEngine:
         self.__playersList=[]
         self.__winner=None
         self.__die=die
+        self.__gameFinished = False
         self.firstPlayerIsActive=True
         self.gameEndTime=""
 
@@ -41,36 +42,39 @@ class GameEngine:
     def startGame(self):
         self.introToTheGame()
         self.setInitialActivePlayerStatus()
-        while self.__playersList[0].getPlayerInfo().get("points")<MAX_POINTS and self.__playersList[1].getPlayerInfo().get("points")<MAX_POINTS:
-            self.__die.listenForShake() 
-            self.setActivePlayerPointAndSwitchActivePlayer(self.__die.getFaceValue())    
+        while not self.__gameFinished:
+            value = self.__die.listenForShake()
+            if value != 0:
+                self.setActivePlayerPointAndSwitchActivePlayer(self.__die.getFaceValue())
 
     def setInitialActivePlayerStatus(self):
-       self.__playersList[0].setActiveStatus(True)
-       sense.show_message("{}'s turn".format(self.__playersList[0].getPlayerInfo().get("name")),text_colour=tColour)
-       self.__playersList[1].setActiveStatus(False)
+#TODO does it matter if the message is displayed after the loop?
+        index = 0
+        for player in self.__playersList:
+            if index == 0:
+                player.setActiveStatus(True)
+            else: 
+                player.setActiveStatus(False)
+            index += 1
+        
+        sense.show_message("{}'s turn".format(self.__playersList[0].getPlayerInfo().get("name")),text_colour=tColour)
+        
 
     def setActivePlayerPointAndSwitchActivePlayer(self,points):
         activePlayerPoints=0
-        if self.__playersList[0].getActiveStatus():
-            self.__playersList[0].addPoints(points)
-            activePlayerPoints=self.__playersList[0].getPlayerInfo().get("points")
-            sense.show_message("Points:{}".format(activePlayerPoints))
-            if activePlayerPoints<MAX_POINTS:
-                sense.show_message("{}'s turn".format(self.__playersList[1].getPlayerInfo().get("name")),text_colour=tColour)
-            else:
-                self.setWinner(self.__playersList[0])
-        else:
-            self.__playersList[1].addPoints(points)
-            activePlayerPoints=self.__playersList[1].getPlayerInfo().get("points")
-            sense.show_message("Points:{}".format(activePlayerPoints))
-            if activePlayerPoints<MAX_POINTS:
-                sense.show_message("{}'s turn".format(self.__playersList[0].getPlayerInfo().get("name")),text_colour=tColour)
-            else:
-                self.setWinner(self.__playersList[1])
-
-        self.__playersList[0].setActiveStatus(not self.__playersList[0].getActiveStatus())
-        self.__playersList[1].setActiveStatus(not self.__playersList[1].getActiveStatus())
+        
+        for player in self.__playersList:
+            if player.getActiveStatus():
+                player.addPoints(points)
+                activePlayerPoints = player.getPlayerInfo().get("points")
+                sense.show_message("Points:{}".format(activePlayerPoints))
+                if activePlayerPoints<MAX_POINTS:
+                    sense.show_message("{}'s turn".format(player.getPlayerInfo().get("name")),text_colour=tColour)
+                else:
+                    self.__gameFinished = True
+                    self.setWinner(player)
+            player.setActiveStatus(not player.getActiveStatus())
+            
 
     def gameFinished(self):
         self.gameEndTime = datetime.now().strftime("%H.%M.%S")
@@ -81,9 +85,3 @@ class GameEngine:
     
     def recordData(self):
         recData.writeTheRecord(self.getWinner(),self.gameEndTime)
-
-
-
-
-
-
