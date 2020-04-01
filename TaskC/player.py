@@ -1,23 +1,26 @@
+from sense_hat import SenseHat
+sense=SenseHat()
+
 class Player:
-    def __init__(self):
-        self.__points = 0
-        self.__active = False
-        self.__win = False
+    def __init__(self,name):
+        self.__name=name
+        self.__currPoints = 0
+        self.__activeStatus=False
 
-    def addPoints(self, points):
-        self.__points += points
-
-    def getPoints(self):
-        return self.__points
-
-    def setActive(self, active):
-        self.__active = active
+    def getPlayerInfo(self):
+        return {
+            "name":self.__name,
+            "points":self.__currPoints            
+        }
     
-    def getActive(self):
-        return self.__active
+    def getActiveStatus(self):
+        return self.__activeStatus
 
-    def setWin(self):
-        self.__win = True
+    def setActiveStatus(self, activeStatus):
+        self.__activeStatus=activeStatus
+    
+    def addPoints(self, points):
+        self.__currPoints += points
 
-    def getWin(self):
-        return self.__win
+    def getCurrPoints(self):
+        return self.__currPoints

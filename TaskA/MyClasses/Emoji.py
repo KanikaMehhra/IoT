@@ -9,6 +9,7 @@ class Emoji:
         self.__outlineColor=outlineColor
         self.__fillInColor=fillInColor
 
+    #draws the coloured emoji
     def drawEmoji(self):
         color=""
         for row in range(len(self.__shapeArray)):
@@ -19,7 +20,7 @@ class Emoji:
                     color=self.__outlineColor
                 elif self.__shapeArray[row][col]=='f':
                     color=self.__fillInColor
-
+                #setting each pixel to a particular colour
                 sense.set_pixel(row,col,color)
 
 

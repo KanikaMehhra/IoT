@@ -2,14 +2,18 @@
 from MyClasses.Color import Color
 from MyClasses.Emoji import Emoji
 from time import sleep
+from MyModules import modules
 
 color=Color()
-
 noColor=color.getNoColorColor()
 red=color.getRedColor()
 green=color.getGreenColor()
 blue=color.getBlueColor()
 
+#Naming convention for the image array:
+#'b' is the background colour
+#'o' is the outline colour
+#'f' is the fill-in colour
 happyEmoji=Emoji([
     ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
     ['b', 'o', 'o', 'f', 'f', 'o', 'o', 'b'],
@@ -45,6 +49,8 @@ purplexedEmoji=Emoji([
 
 emojis=[happyEmoji,sadEmoji,purplexedEmoji]
 
+#creates different emojis at an interval of 3 sec 
+#untill a keyboard external break cmd is not given
 while True:
     for emoji in range(len(emojis)):
         emojis[emoji].drawEmoji()

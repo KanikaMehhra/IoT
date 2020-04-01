@@ -1,91 +1,87 @@
-from player import Player
-from electronicDie import ElectronicDie
+from random import randint
 from sense_hat import SenseHat
-from recordData import RecordData
+from time import sleep
 from datetime import datetime
+import csv
+from recordData import RecordData
 
-import os,sys,inspect
-current = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parent = os.path.dirname(current)
-sys.path.insert(0, parent) 
-import constants
+sense=SenseHat()
+MAX_POINTS=30
+bColour=(255,111,111)
+tColour=(111,255,111)
+recData=RecordData()
 
-class GameEngine():
-    def __init__(self):
-        self.__sense = SenseHat()
-        self.__player1 = Player()
-        self.__player2 = Player()
-        self.__die = ElectronicDie()
-        self.__record = RecordData()
+class GameEngine:
+    def __init__(self,die):
+        super().__init__()
+        self.__playersList=[]
+        self.__winner=None
+        self.__die=die
+        self.__gameFinished = False
+        self.firstPlayerIsActive=True
+        self.gameEndTime=""
 
-        self.__sense.clear()
-        self.__player1.setActive(True)
-        self.__player1Points = 0
-        self.__player2Points = 0
+    def addPlayer(self, player):
+        self.__playersList.append(player)
 
-    def run(self):
-        self.startGame()
+    def setWinner(self,winnerPlayer):
+        self.__winner=winnerPlayer
 
-        while(self.__player1Points < constants.MAX_POINTS and self.__player2Points < constants.MAX_POINTS ):
-            #roll a die 
-            num = self.__die.checkDie()
+    def getWinner(self):
+        return self.__winner
 
-            #if the die has been rolled
-            if num != 0:
-                if self.__player1.getActive():
-                    self.__player1.addPoints(num)
-                    self.__player1Points += num
-                    self.showPointMessage("P1", self.__player1Points)
-
-                    if self.__player1Points >= constants.MAX_POINTS:
-                        self.__player1.setWin()
-                    else:
-                        self.__sense.show_message("Player 2 turn")
-
-                    
-                elif self.__player2.getActive():
-                    self.__player2.addPoints(num)
-                    self.__player2Points += num
-                    self.showPointMessage("P2", self.__player2Points)
-
-                    if self.__player2Points >= constants.MAX_POINTS:
-                        self.__player2.setWin()
-                    else:
-                        self.__sense.show_message("Player 1 turn")
-
-                self.__player1.setActive(not self.__player1.getActive())
-                self.__player2.setActive(not self.__player2.getActive())
-
-        self.endGame()
-
-    def showPointMessage(self, player, pts):
-        self.__sense.show_message("{0} points: {1}\n".format(player, pts))
+    def introToTheGame(self):
+        welcome = "Welcome to the electronic die game. Press the joystick to go through the game's instructions."
+        sense.show_message(welcome)
+        event = sense.stick.wait_for_event()
+        intro="Player 1 and Player 2 take turns in rolling a die. The first one to roll {0} points is the winner. Let's start the game.".format(MAX_POINTS)
+        sense.show_message(intro)
+        sense.clear(bColour)
+        sleep(1)
 
     def startGame(self):
-        intro = """Hello, in this game Player 1 and Player 2 take turns in rolling a die. 
-        The first one to roll {0} points is the winner""".format(constants.MAX_POINTS)
-        print(intro)
-        self.__sense.show_message(intro, scroll_speed=0.07)
-        self.__sense.show_message("Player 1 starts",scroll_speed=0.07)
+        self.introToTheGame()
+        self.setInitialActivePlayerStatus()
+        while not self.__gameFinished:
+            value = self.__die.listenForShake()
+            if value != 0:
+                self.setActivePlayerPointAndSwitchActivePlayer(self.__die.getFaceValue())
 
-    def endGame(self):
-        time = datetime.now().strftime("%H.%M.%S")
+    def setInitialActivePlayerStatus(self):
+#TODO does it matter if the message is displayed after the loop?
+        index = 0
+        for player in self.__playersList:
+            if index == 0:
+                player.setActiveStatus(True)
+            else: 
+                player.setActiveStatus(False)
+            index += 1
+        
+        sense.show_message("{}'s turn".format(self.__playersList[0].getPlayerInfo().get("name")),text_colour=tColour)
+        
 
-        if self.__player1.getWin():
-            self.__sense.show_message("Congrats, P1 is the winner with score {0}\n".format(self.__player1Points),scroll_speed=0.07)
-            data = {
-                'player' : 'Player 1',
-                'points' : str(self.__player1.getPoints()),
-                'time': time
-            }
-            self.__record.recordData(data)
+    def setActivePlayerPointAndSwitchActivePlayer(self,points):
+        activePlayerPoints=0
+        
+        for player in self.__playersList:
+            if player.getActiveStatus():
+                player.addPoints(points)
+                activePlayerPoints = player.getPlayerInfo().get("points")
+                sense.show_message("Points:{}".format(activePlayerPoints))
+                if activePlayerPoints<MAX_POINTS:
+                    sense.show_message("{}'s turn".format(player.getPlayerInfo().get("name")),text_colour=tColour)
+                else:
+                    self.__gameFinished = True
+                    self.setWinner(player)
+            player.setActiveStatus(not player.getActiveStatus())
+            
 
-        if self.__player2.getWin():
-            self.__sense.show_message("Congrats, P2 is the winner with score {0}\n".format(self.__player2Points),scroll_speed=0.07)
-            data = {
-                'player' : 'Player 2',
-                'points' : str(self.__player2.getPoints()),
-                'time': time
-            }
-            self.__record.recordData(data)
-
+    def gameFinished(self):
+        self.gameEndTime = datetime.now().strftime("%H.%M.%S")
+        sense.show_message("Winner:{}".format(self.getWinner().getPlayerInfo().get("name")),text_colour=tColour)
+        sleep(1)
+        sense.clear(bColour)
+        self.recordData()
+    
+    def recordData(self):
+        recData.writeTheRecord(self.getWinner(),self.gameEndTime)
