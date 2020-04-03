@@ -16,6 +16,8 @@ class ElectronicDie:
     def setFaceValue(self,faceValue):
         self.__faceValue=faceValue
 
+    #function to listen for shaking of pi, once shaking detected, perform rolling die animation 
+    #and set face value of the die.
     def listenForShake(self):
         while True:
             acceleration = sense.get_accelerometer_raw()
@@ -28,7 +30,6 @@ class ElectronicDie:
             z = abs(z)
 
             if x > 1 or y > 1 or z > 1:
-                #sense.clear(255,255,0)
                 self.performAnimation()
                 sleep(1)
                 self.setFaceValue(randint(1,6))
@@ -36,7 +37,7 @@ class ElectronicDie:
                 sleep(2)
                 break
         
-        #shows short animation to get the feeling of rolling a die 
+    #shows short animation to get the feeling of rolling a die 
     def performAnimation(self):
         interval=0.0
         while (interval < constants.MAX_INTERVAL):

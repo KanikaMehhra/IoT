@@ -1,10 +1,6 @@
 import csv
 
-class RecordData:
-    def __init__(self):
-        super().__init__()
-
-    def writeTheRecord(self, winner,time):
+def writeTheRecord(winner,time):
         try:
             f = open('winner.csv', 'a') 
             dataNames = ['player', 'points', 'time']
