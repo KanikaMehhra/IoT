@@ -1,6 +1,5 @@
 import csv
 
-
 def writeTheRecord(winner,time):
         try:
             f = open('winner.csv', 'a') 

@@ -31,7 +31,6 @@ class ElectronicDie:
 
             if x > 1 or y > 1 or z > 1:
                 self.performAnimation()
-                sleep(1)
                 self.setFaceValue(randint(1,6))
                 sense.show_letter("{}".format(self.__faceValue),constants.T_COLOUR)
                 sleep(2)

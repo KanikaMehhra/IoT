@@ -12,10 +12,11 @@ gameEng=GameEngine(die)
 #creating players
 player1=Player("Kanika")
 player2=Player("Suhani")
+players=[player1, player2]
 
 #adding players to the engine
-gameEng.addPlayer(player1)
-gameEng.addPlayer(player2)
+for player in players:
+    gameEng.addPlayer(player)
 
 #starting the game
 gameEng.startGame()
