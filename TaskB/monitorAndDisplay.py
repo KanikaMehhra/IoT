@@ -42,7 +42,7 @@ class MonitorAndDisplay:
                 if event.action == 'pressed':
                     self.quit()
             if temp <= self.__cold_max:
-                sense.show_message(str("%.1fC" % temp), text_colour=constants.RED)
+                sense.show_message(str("%.1fC" % temp), text_colour=constants.BLUE)
             elif temp > self.__comfortable_min and temp < self.__comfortable_max:
                 sense.show_message(str("%.1fC" % temp), text_colour =constants.GREEN)
             elif temp >= self.__hot_min:
