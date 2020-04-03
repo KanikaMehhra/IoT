@@ -10,6 +10,7 @@ sys.path.insert(0, parent)
 
 sense = SenseHat()
 RED=(255,0,0)
+GREEN=(0,255,0)
 
 class MonitorAndDisplay: 
     def __init__(self):
@@ -36,11 +37,11 @@ class MonitorAndDisplay:
             temp = self.__calib.get_calibrated_temp()
 
             if temp <= self.__cold_max:
-                sense.show_message(str("%.1fC" % temp), text_colour=constants.RED)
+                sense.show_message(str("%.1fC" % temp), text_colour=RED)
             elif temp > self.__comfortable_min and temp < self.__comfortable_max:
-                sense.show_message(str("%.1fC" % temp), text_colour =constants.GREEN)
+                sense.show_message(str("%.1fC" % temp), text_colour =GREEN)
             elif temp >= self.__hot_min:
-                sense.show_message(str("%.1fC" % temp), text_colour = constants.RED) 
+                sense.show_message(str("%.1fC" % temp), text_colour = RED) 
     
             sleep(10)
             sense.clear()
