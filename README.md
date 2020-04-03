@@ -8,7 +8,7 @@ The tasks also involve raspberry pi with a sense hat. The tasks are as follows:
 Task A- it contains an emoji generator. It takes 3 emoji's 2D arrar and draws them on the raspberry pi at an interval of 3 seconds. It uses
 3 different colors to create a single emoji.
 
-Task B- 
+Task B- displays temperature every 10 seconds on the dislay after reading values from a file determining which tempreatures                                     are maximum and minimum in appropriate colours. If joystick is pressed it will quit the program (not immediately). Tries to simulate the actual temperature through computing average temperature and subtracking temp of the processor.
 
 Task C- it contains a game designed to be played by 2 players only. There are instruction throughout the game.
         There is an electonicDie.py that detects the movement of the raspberry 
