@@ -2,7 +2,9 @@
 from MyClasses.Color import Color
 from MyClasses.Emoji import Emoji
 from time import sleep
+from sense_hat import SenseHat
 
+sense=SenseHat()
 color=Color()
 noColor=color.getNoColorColor()
 red=color.getRedColor()
@@ -50,9 +52,16 @@ emojis=[happyEmoji,sadEmoji,purplexedEmoji]
 
 #creates different emojis at an interval of 3 sec 
 #untill a keyboard external break cmd is not given
-while True:
-    for emoji in range(len(emojis)):
-        emojis[emoji].drawEmoji()
-        sleep(3)
+joystick_used=False
+while not joystick_used:
+    joystick_event_list = sense.stick.get_events()
+    if (len(joystick_event_list)) is not 0:
+        joystick_used = True   
+        sense.clear(0,0,0)
+    else:
+        for emoji in range(len(emojis)):   
+            emojis[emoji].drawEmoji()
+            sleep(3)
+
 
    
