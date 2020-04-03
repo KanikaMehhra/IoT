@@ -7,10 +7,9 @@ import os,sys,inspect
 current = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 parent = os.path.dirname(current)
 sys.path.insert(0, parent) 
+import constants
 
 sense = SenseHat()
-RED=(255,0,0)
-GREEN=(0,255,0)
 
 class MonitorAndDisplay: 
     def __init__(self):
@@ -20,7 +19,7 @@ class MonitorAndDisplay:
         try:
             self.__data = DataInput(file).getData()
         except FileNotFoundError:
-            sense.show_message("Sorry, missing a config file", text_colour=RED)
+            sense.show_message("Sorry, missing a config file", text_colour=constants.RED)
             print("Configuration file not found, closing program...")
             sense.clear()
             sys.exit()
@@ -37,11 +36,11 @@ class MonitorAndDisplay:
             temp = self.__calib.get_calibrated_temp()
 
             if temp <= self.__cold_max:
-                sense.show_message(str("%.1fC" % temp), text_colour=RED)
+                sense.show_message(str("%.1fC" % temp), text_colour=constants.RED)
             elif temp > self.__comfortable_min and temp < self.__comfortable_max:
-                sense.show_message(str("%.1fC" % temp), text_colour =GREEN)
+                sense.show_message(str("%.1fC" % temp), text_colour =constants.GREEN)
             elif temp >= self.__hot_min:
-                sense.show_message(str("%.1fC" % temp), text_colour = RED) 
+                sense.show_message(str("%.1fC" % temp), text_colour = constants.RED) 
     
             sleep(10)
             sense.clear()
