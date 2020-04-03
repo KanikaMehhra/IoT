@@ -2,9 +2,10 @@
 from sense_hat import SenseHat
 import os
 
+sense = SenseHat()
+
 class Calibration:
     def __init__(self):
-        self.sense = SenseHat()
         self.__t = None
         
 # Get CPU temperature.
@@ -26,8 +27,8 @@ class Calibration:
     def get_calibrated_temp(self):
         t_corr = 0.0
         for x in range(10):
-            t1 = self.sense.get_temperature_from_humidity()
-            t2 = self.sense.get_temperature_from_pressure()
+            t1 = sense.get_temperature_from_humidity()
+            t2 = sense.get_temperature_from_pressure()
             t_cpu = self.get_cpu_temp()
 
             t = (t1 + t2) / 2
