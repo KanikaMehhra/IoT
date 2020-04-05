@@ -1,0 +1,29 @@
+We decided to have one file shared between all tasks of the assignment having a
+list of constants inside of it in order to reduce code duplication and increase
+readability.
+
+About task B, where we are reading temperatures from a config.json file and are
+showing current temperature in the environment around the pi. In order to try to
+simulate the actual temperature, we have a file for calibration based on the file
+that has been provided for us that subtracts temperature of the CPU. Also, when
+determining the temperature, we scan the environment 10 times in order to get
+more accurate data quicker due to the sleep function, if we did not do this the
+it would measure just once every ten seconds which does not return a precise
+temperature. We also have a class made for data input which is intended to read
+what is max and min but because in the future it could possibly read data from
+other sources, we have decided to put in into a separate class to make this
+easier in the future. Thanks to this, you don not need to understand the code to
+get data from a different source. If the joystick has been pressed, process will
+be terminated after the sleep function finishes.
+
+Task C is a game played by two players throwing a die and taking turns until one
+of the players reaches a certain number of points. Our game has the potential of
+having additional players in case of future expansions which also reduces code
+duplication because the code is written for n players and information is written
+down in loops and therefore more flexible. That is one of the reasons we have
+added a linked list also for better flexibility. Main game is run in the game
+engine until one of the players has won by having at least the required amount
+of points. We considered having checking the players points every time the loop
+is checked but that would be very inefficient. Due to that we have check wether
+or not is winner instead. When the die is shaken, we have added a short animation
+to improve the user's experience so that it simulated an actual die. 
