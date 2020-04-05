@@ -36,10 +36,9 @@ class GameEngine:
     def startGame(self):
         self.introToTheGame()
         self.setInitialActivePlayerStatus()
-        while self.__winner == None:
-            shaken = self.__die.listenForShake() 
-            if shaken != 0:
-                self.setActivePlayerPointAndSwitchActivePlayer(self.__die.getFaceValue())    
+         while self.__winner == None:
+             self.__die.listenForShake() 
+             self.setActivePlayerPointAndSwitchActivePlayer(self.__die.getFaceValue())   
 
     #set initial players' active status.
     def setInitialActivePlayerStatus(self):
