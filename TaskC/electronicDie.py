@@ -19,22 +19,24 @@ class ElectronicDie:
     #function to listen for shaking of pi, once shaking detected, perform rolling die animation 
     #and set face value of the die.
     def listenForShake(self):
-        while True:
-            acceleration = sense.get_accelerometer_raw()
-            x = acceleration['x']
-            y = acceleration['y']
-            z = acceleration['z']
+        acceleration = sense.get_accelerometer_raw()
+        x = acceleration['x']
+        y = acceleration['y']
+        z = acceleration['z']
 
-            x = abs(x)
-            y = abs(y)
-            z = abs(z)
+        x = abs(x)
+        y = abs(y)
+        z = abs(z)
 
-            if x > 1 or y > 1 or z > 1:
-                self.performAnimation()
-                self.setFaceValue(randint(1,6))
-                sense.show_letter("{}".format(self.__faceValue),constants.T_COLOUR)
-                sleep(2)
-                break
+        num = 0
+        if x > 1 or y > 1 or z > 1:
+            self.performAnimation()
+            num = randint(constants.MIN_DIE, constants.MAX_DIE)
+            self.setFaceValue(num)
+            sense.show_letter("{}".format(self.__faceValue),constants.T_COLOUR)
+            sleep(2)
+        
+        return num
         
     #shows short animation to get the feeling of rolling a die 
     def performAnimation(self):
