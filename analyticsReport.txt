@@ -2,6 +2,16 @@ We decided to have one file shared between all tasks of the assignment having a
 list of constants inside of it in order to reduce code duplication and increase
 readability.
 
+About task A, we created 2 classes. First, Class Emoji.py which helps in drawing 
+the entered emoji in the animateEmoji.py. It takes 3 colours (background colour, 
+outline colour and the fill-in colour". The second class is the Color class, 
+which is created because in future if we want to extend the functionality of 
+Colour class like taking 2 coulours and providing a new colour etc., it could 
+be done easily. the animateEmoji.py is the main engine for the task A where 3 
+emojis are entered and created. The emojis are displyed on the sense hat at an 
+interval of 3 seconds and if we want to terminate the loop, we need to press the 
+joystick.
+
 About task B, where we are reading temperatures from a config.json file and are
 showing current temperature in the environment around the pi. In order to try to
 simulate the actual temperature, we have a file for calibration based on the file
