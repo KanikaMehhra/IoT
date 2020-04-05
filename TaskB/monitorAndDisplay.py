@@ -33,10 +33,6 @@ class MonitorAndDisplay:
     def quit(self):
         sense.clear()
         sys.exit()
-
-    def quit(self):
-        sense.clear()
-        sys.exit()
     
     def runTemp(self):
         self.initData('config.json')
