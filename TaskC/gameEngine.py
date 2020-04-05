@@ -2,7 +2,7 @@ from random import randint
 from sense_hat import SenseHat
 from time import sleep
 from datetime import datetime
-import csv
+
 import modules
 import constants
 from playerLinkedList import PlayerLinkedList
@@ -36,9 +36,10 @@ class GameEngine:
     def startGame(self):
         self.introToTheGame()
         self.setInitialActivePlayerStatus()
-        while not self.__winner:
-            self.__die.listenForShake() 
-            self.setActivePlayerPointAndSwitchActivePlayer(self.__die.getFaceValue())    
+        while self.__winner == None:
+            shaken = self.__die.listenForShake() 
+            if shaken != 0:
+                self.setActivePlayerPointAndSwitchActivePlayer(self.__die.getFaceValue())    
 
     #set initial players' active status.
     def setInitialActivePlayerStatus(self):
