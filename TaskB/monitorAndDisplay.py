@@ -23,13 +23,16 @@ class MonitorAndDisplay:
         except FileNotFoundError:
             sense.show_message("Sorry, missing a config file", text_colour=RED)
             print("Configuration file not found, closing program...")
-            sense.clear()
             self.quit()
 
         self.__cold_max = self.__data['cold_max'] 
         self.__comfortable_min = self.__data['comfortable_min'] 
         self.__comfortable_max = self.__data['comfortable_max'] 
-        self.__hot_min = self.__data['hot_min'] 
+        self.__hot_min = self.__data['hot_min']
+
+    def quit(self):
+        sense.clear()
+        sys.exit()
 
     def quit(self):
         sense.clear()
@@ -37,7 +40,7 @@ class MonitorAndDisplay:
     
     def runTemp(self):
         self.initData('config.json')
-
+    
         while True:
             temp = self.__calib.get_calibrated_temp()
 
