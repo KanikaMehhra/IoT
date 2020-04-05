@@ -26,4 +26,6 @@ engine until one of the players has won by having at least the required amount
 of points. We considered having checking the players points every time the loop
 is checked but that would be very inefficient. Due to that we have check wether
 or not is winner instead. When the die is shaken, we have added a short animation
-to improve the user's experience so that it simulated an actual die. 
+to improve the user's experience so that it simulated an actual die. We also have 
+some functionality for the joystick to make controling the game easier. For example 
+at the start to indicate 

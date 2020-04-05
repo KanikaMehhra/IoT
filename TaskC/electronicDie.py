@@ -24,6 +24,10 @@ class ElectronicDie:
         y = acceleration['y']
         z = acceleration['z']
 
+        x = round(x, 0)
+        y = round(y, 0)
+        z = round(z, 0)
+        
         x = abs(x)
         y = abs(y)
         z = abs(z)
